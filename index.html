@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Copy Application Management System for Indian Law - Secure portal for citizens, advocates, staff, and administrators">
+    <title>CA Management System - Indian Law Copy Applications</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="landing-container">
+        <!-- Background Gradient -->
+        <div class="gradient-bg"></div>
+        
+        <!-- Navigation -->
+        <nav class="landing-nav">
+            <div class="nav-content">
+                <div class="logo">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <rect width="40" height="40" rx="8" fill="url(#logo-gradient)"/>
+                        <path d="M20 10L28 16V24L20 30L12 24V16L20 10Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                        <circle cx="20" cy="20" r="3" fill="white"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#667eea"/>
+                                <stop offset="100%" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>CA Management</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#portals">Portals</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Copy Application</span>
+                    <br>Management System
+                </h1>
+                <p class="hero-subtitle">Streamlined digital platform for Indian Law copy applications - Submit, verify, and approve with ease</p>
+                <div class="hero-cta">
+                    <a href="#login" class="cta-button primary">Get Started</a>
+                    <a href="#about" class="cta-button secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <div class="card-icon">📝</div>
+                    <div class="card-text">Submit Applications</div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-icon">✓</div>
+                    <div class="card-text">Staff Verification</div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="card-icon">📊</div>
+                    <div class="card-text">Admin Dashboard</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" class="login-section">
+            <div class="login-container">
+                <h2>Select Your Portal</h2>
+                <p class="login-subtitle">Choose your role to access the appropriate portal</p>
+                
+                <div class="portal-cards">
+                    <!-- Citizen/Advocate Portal Card -->
+                    <div class="portal-card" data-portal="citizen">
+                        <div class="portal-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <h3>Citizen / Advocate</h3>
+                        <p>Submit and track your copy applications</p>
+                        <button class="portal-button" onclick="showLogin('citizen')">Access Portal</button>
+                    </div>
+
+                    <!-- Staff Portal Card -->
+                    <div class="portal-card" data-portal="staff">
+                        <div class="portal-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"/>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                            </svg>
+                        </div>
+                        <h3>Staff</h3>
+                        <p>Review and verify copy applications</p>
+                        <button class="portal-button" onclick="showLogin('staff')">Access Portal</button>
+                    </div>
+
+                    <!-- Admin Portal Card -->
+                    <div class="portal-card" data-portal="admin">
+                        <div class="portal-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                        </div>
+                        <h3>Administrator</h3>
+                        <p>Monitor and analyze application statistics</p>
+                        <button class="portal-button" onclick="showLogin('admin')">Access Portal</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeLoginModal()">&times;</span>
+                <h2 id="modalTitle">Login</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-button">Login</button>
+                    <div class="demo-credentials">
+                        <p><strong>Demo Credentials:</strong></p>
+                        <p id="demoCredentials"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
