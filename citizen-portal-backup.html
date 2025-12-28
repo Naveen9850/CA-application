@@ -125,87 +125,41 @@
                         <!-- Case Details -->
                         <div class="form-section">
                             <h3>Case Details</h3>
-
-                            <!-- Case/FIR Number Selection -->
-                            <div class="form-group">
-                                <label>Identification Type *</label>
-                                <div style="display: flex; gap: 2rem; margin-top: 0.5rem;">
-                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                        <input type="radio" name="identificationType" value="case_number" checked
-                                            onchange="toggleIdentificationFields()">
-                                        <span>Case Number</span>
-                                    </label>
-                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                                        <input type="radio" name="identificationType" value="fir_number"
-                                            onchange="toggleIdentificationFields()">
-                                        <span>FIR Number</span>
-                                    </label>
-                                </div>
-                            </div>
-
                             <div class="form-row">
-                                <div class="form-group" id="caseNumberGroup">
+                                <div class="form-group">
                                     <label for="caseNumber">Case Number *</label>
-                                    <input type="text" id="caseNumber" name="caseNumber"
-                                        placeholder="e.g., CR/2024/001">
-                                </div>
-                                <div class="form-group" id="firNumberGroup" style="display: none;">
-                                    <label for="firNumber">FIR Number *</label>
-                                    <input type="text" id="firNumber" name="firNumber" placeholder="e.g., FIR/045/2024">
-                                </div>
-                                <div class="form-group">
-                                    <label for="caseType">Case Type *</label>
-                                    <select id="caseType" name="caseType" required>
-                                        <option value="">Select case type</option>
-                                        <option value="civil">Civil Case</option>
-                                        <option value="criminal">Criminal Case</option>
-                                        <option value="family">Family Case</option>
-                                        <option value="revenue">Revenue Case</option>
-                                        <option value="labor">Labor Case</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- District and Court Selection -->
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="district">District *</label>
-                                    <select id="district" name="district" required onchange="loadCourts()">
-                                        <option value="">Select district</option>
-                                        <!-- Districts will be loaded dynamically -->
-                                    </select>
+                                    <input type="text" id="caseNumber" name="caseNumber" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="courtName">Court Name *</label>
-                                    <select id="courtName" name="courtName" required>
-                                        <option value="">First select a district</option>
+                                    <input type="text" id="courtName" name="courtName" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="copyType">Type of Copy Required *</label>
+                                    <select id="copyType" name="copyType" required>
+                                        <option value="">Select copy type</option>
+                                        <option value="Case Documents">Case Documents</option>
+                                        <option value="Court Order">Court Order</option>
+                                        <option value="Judgment">Judgment</option>
+                                        <option value="Petition">Petition</option>
+                                        <option value="Evidence">Evidence Records</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="purpose">Purpose of Application *</label>
+                                    <select id="purpose" name="purpose" required>
+                                        <option value="">Select purpose</option>
+                                        <option value="Appeal preparation">Appeal Preparation</option>
+                                        <option value="Personal records">Personal Records</option>
+                                        <option value="Legal research">Legal Research</option>
+                                        <option value="Court submission">Court Submission</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
                             </div>
-
-                            <!-- Multiple Copy Types -->
-                            <div class="form-group">
-                                <label>Type of Copies Required * (Select one or more)</label>
-                                <div id="copyTypesCheckboxes"
-                                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 0.75rem;">
-                                    <!-- Copy type checkboxes will be loaded dynamically -->
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="purpose">Purpose of Application *</label>
-                                <select id="purpose" name="purpose" required>
-                                    <option value="">Select purpose</option>
-                                    <option value="Appeal preparation">Appeal Preparation</option>
-                                    <option value="Personal records">Personal Records</option>
-                                    <option value="Legal research">Legal Research</option>
-                                    <option value="Court submission">Court Submission</option>
-                                    <option value="Insurance claim">Insurance Claim</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-
                             <div class="form-group">
                                 <label for="additionalInfo">Additional Information</label>
                                 <textarea id="additionalInfo" name="additionalInfo" rows="4"

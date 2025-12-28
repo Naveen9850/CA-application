@@ -1,4 +1,4 @@
-// Citizen Portal JavaScript
+// Citizen Portal JavaScript - Enhanced Version
 let currentUser = null;
 
 // Initialize on page load
@@ -7,9 +7,95 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentUser) {
         document.getElementById('userName').textContent = currentUser.name;
         seedDemoData();
+        initializeForm();
         loadApplications();
     }
 });
+
+// Initialize form fields
+function initializeForm() {
+    // Load districts
+    const districtSelect = document.getElementById('district');
+    const districts = getDistricts();
+    districts.forEach(district => {
+        const option = document.createElement('option');
+        option.value = district;
+        option.textContent = district;
+        districtSelect.appendChild(option);
+    });
+
+    // Load copy types checkboxes
+    const copyTypesContainer = document.getElementById('copyTypesCheckboxes');
+    const copyTypes = getCopyTypes();
+    copyTypes.forEach((type, index) => {
+        const checkboxDiv = document.createElement('div');
+        checkboxDiv.style.cssText = 'display: flex; align-items: center; gap: 0.5rem;';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `copyType_${index}`;
+        checkbox.name = 'copyTypes';
+        checkbox.value = type;
+        checkbox.style.cssText = 'width: 1.125rem; height: 1.125rem; cursor: pointer;';
+
+        const label = document.createElement('label');
+        label.htmlFor = `copyType_${index}`;
+        label.textContent = type;
+        label.style.cssText = 'cursor: pointer; font-size: 0.875rem;';
+
+        checkboxDiv.appendChild(checkbox);
+        checkboxDiv.appendChild(label);
+        copyTypesContainer.appendChild(checkboxDiv);
+    });
+
+    // Set initial field states
+    toggleIdentificationFields();
+}
+
+// Load courts based on selected district
+function loadCourts() {
+    const districtSelect = document.getElementById('district');
+    const courtSelect = document.getElementById('courtName');
+    const selectedDistrict = districtSelect.value;
+
+    // Clear existing courts
+    courtSelect.innerHTML = '<option value="">Select court</option>';
+
+    if (selectedDistrict) {
+        const courts = getCourtsForDistrict(selectedDistrict);
+        courts.forEach(court => {
+            const option = document.createElement('option');
+            option.value = court;
+            option.textContent = court;
+            courtSelect.appendChild(option);
+        });
+    } else {
+        courtSelect.innerHTML = '<option value="">First select a district</option>';
+    }
+}
+
+// Toggle between Case Number and FIR Number
+function toggleIdentificationFields() {
+    const identificationType = document.querySelector('input[name="identificationType"]:checked').value;
+    const caseNumberGroup = document.getElementById('caseNumberGroup');
+    const firNumberGroup = document.getElementById('firNumberGroup');
+    const caseNumberInput = document.getElementById('caseNumber');
+    const firNumberInput = document.getElementById('firNumber');
+
+    if (identificationType === 'case_number') {
+        caseNumberGroup.style.display = 'block';
+        firNumberGroup.style.display = 'none';
+        caseNumberInput.required = true;
+        firNumberInput.required = false;
+        firNumberInput.value = '';
+    } else {
+        caseNumberGroup.style.display = 'none';
+        firNumberGroup.style.display = 'block';
+        caseNumberInput.required = false;
+        firNumberInput.required = true;
+        caseNumberInput.value = '';
+    }
+}
 
 // Tab switching
 function switchTab(tabName) {
@@ -56,6 +142,21 @@ function submitApplication(event) {
     const form = event.target;
     const formData = new FormData(form);
 
+    // Get identification type and values
+    const identificationType = formData.get('identificationType');
+    const caseNumber = identificationType === 'case_number' ? formData.get('caseNumber') : null;
+    const firNumber = identificationType === 'fir_number' ? formData.get('firNumber') : null;
+
+    // Get selected copy types
+    const copyTypesCheckboxes = document.querySelectorAll('input[name="copyTypes"]:checked');
+    const copyTypes = Array.from(copyTypesCheckboxes).map(cb => cb.value);
+
+    // Validate at least one copy type is selected
+    if (copyTypes.length === 0) {
+        showNotification('Please select at least one type of copy required.', 'error');
+        return;
+    }
+
     const applicationData = {
         applicantName: formData.get('applicantName'),
         applicantUsername: currentUser.username,
@@ -65,9 +166,13 @@ function submitApplication(event) {
         hasAdvocate: formData.get('hasAdvocate') === 'on',
         advocateName: formData.get('advocateName') || '',
         advocateBarNumber: formData.get('advocateBarNumber') || '',
-        caseNumber: formData.get('caseNumber'),
+        identificationType: identificationType,
+        caseNumber: caseNumber,
+        firNumber: firNumber,
+        caseType: formData.get('caseType'),
+        district: formData.get('district'),
         courtName: formData.get('courtName'),
-        copyType: formData.get('copyType'),
+        copyTypes: copyTypes,
         purpose: formData.get('purpose'),
         additionalInfo: formData.get('additionalInfo') || ''
     };
@@ -80,8 +185,13 @@ function submitApplication(event) {
     // Reset form
     form.reset();
     document.getElementById('advocateFields').style.display = 'none';
+    toggleIdentificationFields();
+    loadCourts(); // Reset court dropdown
 
-    // Switch to applications tab
+    // Uncheck all copy types
+    document.querySelectorAll('input[name="copyTypes"]').forEach(cb => cb.checked = false);
+
+    // Switch to applications tab after delay
     setTimeout(() => {
         document.querySelector('.tab-btn:nth-child(2)').click();
     }, 1500);
@@ -136,20 +246,29 @@ function loadApplications() {
             
             <div class="application-details">
                 <div class="detail-item">
-                    <div class="detail-label">Case Number</div>
-                    <div class="detail-value">${app.caseNumber}</div>
+                    <div class="detail-label">${app.identificationType === 'case_number' ? 'Case Number' : 'FIR Number'}</div>
+                    <div class="detail-value">${app.caseNumber || app.firNumber}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Case Type</div>
+                    <div class="detail-value">${getCaseTypeLabel(app.caseType)}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">District</div>
+                    <div class="detail-value">${app.district}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Court</div>
                     <div class="detail-value">${app.courtName}</div>
                 </div>
-                <div class="detail-item">
-                    <div class="detail-label">Copy Type</div>
-                    <div class="detail-value">${app.copyType}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Purpose</div>
-                    <div class="detail-value">${app.purpose}</div>
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <div class="detail-label">Copy Types Requested</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                    ${app.copyTypes.map(type => `
+                        <span style="background: var(--gray-100); padding: 0.25rem 0.75rem; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 500;">${type}</span>
+                    `).join('')}
                 </div>
             </div>
             
@@ -173,8 +292,28 @@ function loadApplications() {
                     </div>
                 </div>
             ` : ''}
+            
+            ${app.assignedTo ? `
+                <div style="margin-top: 1rem; padding: 0.75rem; background: var(--info-500)10; border-left: 3px solid var(--info-500); border-radius: var(--radius-md);">
+                    <div class="detail-label">Assigned To Staff</div>
+                    <div class="detail-value" style="font-size: 0.875rem;">${app.assignedTo}</div>
+                </div>
+            ` : ''}
         </div>
     `).join('');
+}
+
+// Get case type label
+function getCaseTypeLabel(caseType) {
+    const labels = {
+        'civil': 'Civil Case',
+        'criminal': 'Criminal Case',
+        'family': 'Family Case',
+        'revenue': 'Revenue Case',
+        'labor': 'Labor Case',
+        'other': 'Other'
+    };
+    return labels[caseType] || caseType;
 }
 
 // Filter applications
@@ -203,6 +342,7 @@ function showNotification(message, type = 'info') {
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         z-index: 10000;
         animation: slideInRight 0.3s ease-out;
+        max-width: 400px;
     `;
 
     document.body.appendChild(notification);

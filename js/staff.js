@@ -1,4 +1,4 @@
-// Staff Portal JavaScript
+// Staff Portal JavaScript - Enhanced Version
 let currentUser = null;
 let currentReviewingApp = null;
 let uploadedFile = null;
@@ -64,7 +64,10 @@ function loadApplications() {
                     <div class="application-id">${app.id}</div>
                     <div class="application-date">Submitted: ${formatDate(app.submittedDate)}</div>
                 </div>
-                ${getStatusBadge(app.status)}
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    ${getCaseTypeBadge(app.caseType)}
+                    ${getStatusBadge(app.status)}
+                </div>
             </div>
             
             <div class="application-details">
@@ -77,20 +80,25 @@ function loadApplications() {
                     <div class="detail-value">${app.phone}</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">Case Number</div>
-                    <div class="detail-value">${app.caseNumber}</div>
+                    <div class="detail-label">${app.identificationType === 'case_number' ? 'Case Number' : 'FIR Number'}</div>
+                    <div class="detail-value">${app.caseNumber || app.firNumber}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">District</div>
+                    <div class="detail-value">${app.district}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Court</div>
                     <div class="detail-value">${app.courtName}</div>
                 </div>
-                <div class="detail-item">
-                    <div class="detail-label">Copy Type</div>
-                    <div class="detail-value">${app.copyType}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Purpose</div>
-                    <div class="detail-value">${app.purpose}</div>
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <div class="detail-label">Copy Types Requested</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                    ${app.copyTypes.map(type => `
+                        <span style="background: var(--primary-500)15; color: var(--primary-600); padding: 0.25rem 0.75rem; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 600;">${type}</span>
+                    `).join('')}
                 </div>
             </div>
             
@@ -128,6 +136,19 @@ function loadApplications() {
     `).join('');
 }
 
+// Get case type badge
+function getCaseTypeBadge(caseType) {
+    const badges = {
+        'civil': '<span class="case-type-badge" style="background: #3b82f615; color: #3b82f6;">Civil</span>',
+        'criminal': '<span class="case-type-badge" style="background: #ef444415; color: #ef4444;">Criminal</span>',
+        'family': '<span class="case-type-badge" style="background: #8b5cf615; color: #8b5cf6;">Family</span>',
+        'revenue': '<span class="case-type-badge" style="background: #f59e0b15; color: #f59e0b;">Revenue</span>',
+        'labor': '<span class="case-type-badge" style="background: #10b98115; color: #10b981;">Labor</span>',
+        'other': '<span class="case-type-badge" style="background: #6b728015; color: #6b7280;">Other</span>'
+    };
+    return badges[caseType] || '';
+}
+
 // Open review modal
 function openReviewModal(appId) {
     const app = getAllApplications().find(a => a.id === appId);
@@ -146,6 +167,10 @@ function openReviewModal(appId) {
                 <div class="detail-item">
                     <div class="detail-label">Application ID</div>
                     <div class="detail-value">${app.id}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Case Type</div>
+                    <div class="detail-value">${getCaseTypeBadge(app.caseType)}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Applicant Name</div>
@@ -170,16 +195,24 @@ function openReviewModal(appId) {
                     </div>
                 ` : ''}
                 <div class="detail-item">
-                    <div class="detail-label">Case Number</div>
-                    <div class="detail-value">${app.caseNumber}</div>
+                    <div class="detail-label">${app.identificationType === 'case_number' ? 'Case Number' : 'FIR Number'}</div>
+                    <div class="detail-value">${app.caseNumber || app.firNumber}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">District</div>
+                    <div class="detail-value">${app.district}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Court Name</div>
                     <div class="detail-value">${app.courtName}</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">Copy Type</div>
-                    <div class="detail-value">${app.copyType}</div>
+                    <div class="detail-label">Copy Types Requested</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                        ${app.copyTypes.map(type => `
+                            <span style="background: var(--gray-100); padding: 0.25rem 0.75rem; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 500;">${type}</span>
+                        `).join('')}
+                    </div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Purpose</div>
@@ -326,6 +359,22 @@ function showNotification(message, type = 'info') {
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
+
+// Add CSS for case type badges
+const style = document.createElement('style');
+style.textContent = `
+    .case-type-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 0.875rem;
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+`;
+document.head.appendChild(style);
 
 // Close modal when clicking outside
 window.onclick = function (event) {

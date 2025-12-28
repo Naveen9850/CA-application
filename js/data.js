@@ -10,6 +10,146 @@ const STATUS = {
     REJECTED: 'rejected'
 };
 
+// Case Types
+const CASE_TYPES = {
+    CIVIL: 'civil',
+    CRIMINAL: 'criminal',
+    FAMILY: 'family',
+    REVENUE: 'revenue',
+    LABOR: 'labor',
+    OTHER: 'other'
+};
+
+// Identification Types
+const ID_TYPES = {
+    CASE_NUMBER: 'case_number',
+    FIR_NUMBER: 'fir_number'
+};
+
+// Districts and their Courts
+const DISTRICTS_COURTS = {
+    "Delhi": [
+        "Supreme Court of India",
+        "High Court of Delhi",
+        "Patiala House District Court",
+        "Tis Hazari District Court",
+        "Saket District Court",
+        "Dwarka District Court",
+        "Rohini District Court",
+        "Karkardooma District Court"
+    ],
+    "Mumbai": [
+        "Bombay High Court",
+        "City Civil Court Mumbai",
+        "Dindoshi District Court",
+        "Thane District Court",
+        "Andheri Court",
+        "Bandra Court"
+    ],
+    "Bangalore": [
+        "High Court of Karnataka",
+        "City Civil Court Bangalore",
+        "Bangalore District Court",
+        "Commercial Court Bangalore"
+    ],
+    "Chennai": [
+        "Madras High Court",
+        "City Civil Court Chennai",
+        "Chennai District Court"
+    ],
+    "Kolkata": [
+        "Calcutta High Court",
+        "Alipore District Court",
+        "Barasat District Court"
+    ],
+    "Hyderabad": [
+        "High Court of Telangana",
+        "City Civil Court Hyderabad",
+        "Nampally Court"
+    ],
+    "Pune": [
+        "Pune District Court",
+        "Pune City Civil Court",
+        "Shivajinagar Court"
+    ],
+    "Ahmedabad": [
+        "Gujarat High Court",
+        "Ahmedabad District Court",
+        "City Civil Court Ahmedabad"
+    ]
+};
+
+// Copy Types Available
+const COPY_TYPES = [
+    "Case Documents",
+    "Court Order",
+    "Judgment",
+    "Petition",
+    "Evidence Records",
+    "Charge Sheet",
+    "FIR Copy",
+    "Investigation Report",
+    "Bail Order",
+    "Summons",
+    "Warrant",
+    "Other"
+];
+
+// Staff Members (Demo data)
+const STAFF_MEMBERS = [
+    { username: 'staff', name: 'Priya Verma', specialization: 'all' },
+    { username: 'staff_civil', name: 'Rajesh Kumar', specialization: 'civil' },
+    { username: 'staff_criminal', name: 'Anjali Desai', specialization: 'criminal' },
+    { username: 'staff_family', name: 'Vikram Patel', specialization: 'family' }
+];
+
+// Get districts list
+function getDistricts() {
+    return Object.keys(DISTRICTS_COURTS).sort();
+}
+
+// Get courts for a district
+function getCourtsForDistrict(district) {
+    return DISTRICTS_COURTS[district] || [];
+}
+
+// Get all copy types
+function getCopyTypes() {
+    return COPY_TYPES;
+}
+
+// Get staff list
+function getStaffList() {
+    return STAFF_MEMBERS;
+}
+
+// Get applications by case type
+function getApplicationsByCaseType(caseType) {
+    const applications = getAllApplications();
+    return applications.filter(app => app.caseType === caseType);
+}
+
+// Get applications assigned to staff
+function getApplicationsAssignedToStaff(staffUsername) {
+    const applications = getAllApplications();
+    return applications.filter(app => app.assignedTo === staffUsername);
+}
+
+// Get unassigned applications
+function getUnassignedApplications() {
+    const applications = getAllApplications();
+    return applications.filter(app => !app.assignedTo);
+}
+
+// Assign application to staff
+function assignApplicationToStaff(appId, staffUsername) {
+    return updateApplication(appId, {
+        assignedTo: staffUsername,
+        assignedDate: new Date().toISOString()
+    });
+}
+
+
 // Initialize data structure
 function initializeData() {
     if (!localStorage.getItem(DATA_KEY)) {
