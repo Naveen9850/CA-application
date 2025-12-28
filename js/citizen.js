@@ -266,7 +266,7 @@ function loadApplications() {
             <div style="margin-top: 1rem;">
                 <div class="detail-label">Copy Types Requested</div>
                 <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-                    ${app.copyTypes.map(type => `
+                    ${(Array.isArray(app.copyTypes) ? app.copyTypes : [app.copyType || 'Not specified']).map(type => `
                         <span style="background: var(--gray-100); padding: 0.25rem 0.75rem; border-radius: var(--radius-md); font-size: 0.75rem; font-weight: 500;">${type}</span>
                     `).join('')}
                 </div>

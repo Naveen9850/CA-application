@@ -149,6 +149,78 @@ function assignApplicationToStaff(appId, staffUsername) {
     });
 }
 
+// Migrate old data to new schema
+function migrateOldData() {
+    const applications = JSON.parse(localStorage.getItem(DATA_KEY) || '[]');
+    let needsMigration = false;
+
+    const migratedApps = applications.map(app => {
+        let updated = { ...app };
+
+        // Add identificationType if missing
+        if (!app.identificationType) {
+            updated.identificationType = app.firNumber ? ID_TYPES.FIR_NUMBER : ID_TYPES.CASE_NUMBER;
+            needsMigration = true;
+        }
+
+        // Convert single copyType to copyTypes array
+        if (app.copyType && !app.copyTypes) {
+            updated.copyTypes = [app.copyType];
+            delete updated.copyType;
+            needsMigration = true;
+        }
+
+        // Ensure copyTypes is an array
+        if (!app.copyTypes || !Array.isArray(app.copyTypes)) {
+            updated.copyTypes = app.copyType ? [app.copyType] : ['Case Documents'];
+            needsMigration = true;
+        }
+
+        // Add district if missing (use default)
+        if (!app.district) {
+            updated.district = 'Delhi';
+            needsMigration = true;
+        }
+
+        // Add caseType if missing
+        if (!app.caseType) {
+            updated.caseType = CASE_TYPES.CIVIL;
+            needsMigration = true;
+        }
+
+        // Add FIR number field if missing
+        if (!app.firNumber) {
+            updated.firNumber = null;
+        }
+
+        // Ensure caseNumber is null if using FIR
+        if (updated.identificationType === ID_TYPES.FIR_NUMBER && !updated.firNumber && updated.caseNumber) {
+            updated.firNumber = updated.caseNumber;
+            updated.caseNumber = null;
+            needsMigration = true;
+        }
+
+        // Add assignment fields if missing
+        if (!app.assignedTo) {
+            updated.assignedTo = null;
+            updated.assignedDate = null;
+        }
+
+        return updated;
+    });
+
+    if (needsMigration) {
+        localStorage.setItem(DATA_KEY, JSON.stringify(migratedApps));
+        console.log('Data migrated to new schema');
+    }
+}
+
+// Clear all data (for debugging/reset)
+function clearAllData() {
+    localStorage.removeItem(DATA_KEY);
+    localStorage.removeItem(STATS_KEY);
+    console.log('All data cleared');
+}
 
 // Initialize data structure
 function initializeData() {
@@ -163,6 +235,10 @@ function initializeData() {
             totalRejected: 0
         }));
     }
+
+    // Run migration on existing data
+    migrateOldData();
+}
 }
 
 // Get all applications
