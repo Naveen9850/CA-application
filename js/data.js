@@ -239,7 +239,6 @@ function initializeData() {
     // Run migration on existing data
     migrateOldData();
 }
-}
 
 // Get all applications
 function getAllApplications() {
