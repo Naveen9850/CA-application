@@ -1,0 +1,459 @@
+/* ============================================================================
+   COURT-STYLE CASE LOOKUP STYLING
+   Professional government website aesthetic matching Guntur District Court
+   ============================================================================ */
+
+/* Case Lookup Section */
+.case-lookup-section {
+    background: linear-gradient(135deg, #f8fafc 0%, #e7f1f8 100%);
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
+}
+
+.case-lookup-section h3 {
+    color: #1e40af;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+/* Important Badge */
+.important-badge {
+    background: #ef4444;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 8px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Help Text */
+.help-text {
+    display: block;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 0.35rem;
+    font-style: italic;
+}
+
+/* Case ID Preview Box */
+.case-id-preview {
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.preview-box {
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.case-id-value {
+    color: #1e40af;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: 1px solid #3b82f6;
+}
+
+.location-value {
+    color: #059669;
+    font-weight: 600;
+}
+
+/* Button Loader Spinner */
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Case Found Card */
+.case-found-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 2px solid #10b981;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.success-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #10b981;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #d1fae5;
+}
+
+.success-header svg {
+    flex-shrink: 0;
+}
+
+.success-header h3 {
+    color: #059669;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Case Details Grid */
+.case-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    align-items: start;
+}
+
+.detail-row strong {
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.detail-row span {
+    color: #1e293b;
+}
+
+.case-title {
+    font-weight: 600;
+    color: #1e40af;
+    font-size: 1.05rem;
+}
+
+.highlight {
+    background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+}
+
+/* Badges */
+.badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #3b82f6;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #f59e0b;
+}
+
+.badge-success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.case-details hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 1rem 0;
+}
+
+/* Confirmation Box */
+.confirmation-box {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.confirmation-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.confirmation-box label {
+    margin: 0;
+    cursor: pointer;
+    color: #78350f;
+    user-select: none;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: space-between;
+}
+
+.action-buttons button {
+    flex: 1;
+    max-width: 250px;
+}
+
+/* Case Not Found Card */
+.case-not-found-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    border: 2px solid #f59e0b;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+    animation: fadeIn 0.4s ease-out;
+}
+
+.warning-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #f59e0b;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #fef3c7;
+}
+
+.warning-header h3 {
+    color: #d97706;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.not-found-details {
+    margin-bottom: 1.5rem;
+}
+
+.not-found-details p {
+    margin: 0.5rem 0;
+    color: #475569;
+}
+
+.possible-reasons {
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    border-radius: 6px;
+}
+
+.possible-reasons strong {
+    color: #92400e;
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+}
+
+.possible-reasons ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    color: #78350f;
+}
+
+.possible-reasons li {
+    margin: 0.5rem 0;
+}
+
+/* Action Options */
+.action-options {
+    margin-top: 1.5rem;
+}
+
+.action-options p {
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 1rem;
+}
+
+.action-options button {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.btn-outline {
+    background: white;
+    color: #3b82f6;
+    border: 2px solid #3b82f6;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn-outline:hover {
+    background: #3b82f6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-outline small {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+/* Manual Entry Notice */
+.manual-entry-notice {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: #eff6ff;
+    border: 1px solid #3b82f6;
+    border-radius: 8px;
+    color: #1e40af;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.manual-entry-notice strong {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .detail-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        max-width: 100%;
+    }
+
+    .confirmation-box {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Loading States */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Form Validation States */
+select:invalid,
+input:invalid {
+    border-color: #ef4444;
+}
+
+select:valid,
+input:valid {
+    border-color: #10b981;
+}
+
+select:disabled,
+input:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Print Styles */
+@media print {
+    .case-lookup-section {
+        background: white;
+        border: 1px solid #000;
+    }
+
+    .action-buttons,
+    .form-actions,
+    .btn-secondary {
+        display: none;
+    }
+}

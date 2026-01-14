@@ -1,0 +1,110 @@
+<!-- COURT-STYLE CASE LOOKUP SECTION -->
+<!-- This section should be inserted at the beginning of the application form -->
+<!-- Insert after line 77 in citizen-portal.html (after <form id="applicationForm" onsubmit="submitApplication(event)">) -->
+
+<!-- STEP 1: Case Search (Court-Style Interface) -->
+<div class="form-section case-lookup-section">
+    <h3>🔍 Step 1: Search Case Details</h3>
+    <p class="section-description">Enter your case information to retrieve details from the court database</p>
+
+    <div id="caseSearchForm">
+        <!-- District Selection -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="searchDistrict">District *</label>
+                <select id="searchDistrict" name="searchDistrict" required onchange="loadCourtComplexes()">
+                    <option value="">Select District</option>
+                    <option value="Guntur">Guntur</option>
+                    <option value="Vijayawada">Vijayawada</option>
+                </select>
+                <small class="help-text">Select the district where your case was filed</small>
+            </div>
+        </div>
+
+        <!-- Court Complex Selection -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="searchCourtComplex">Court Complex * <span class="important-badge">IMPORTANT</span></label>
+                <select id="searchCourtComplex" name="searchCourtComplex" required onchange="loadCourtEstablishments()"
+                    disabled>
+                    <option value="">First select a district</option>
+                </select>
+                <small class="help-text">📍 Select the court complex/location where your case was filed</small>
+            </div>
+        </div>
+
+        <!-- Court Establishment Selection -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="searchCourtEstablishment">Court Establishment *</label>
+                <select id="searchCourtEstablishment" name="search CourtEstablishment" required disabled>
+                    <option value="">First select a court complex</option>
+                </select>
+                <small class="help-text">Select the specific court within the complex</small>
+            </div>
+        </div>
+
+        <!-- Case Type and Year -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="searchCaseType">Case Type *</label>
+                <select id="searchCaseType" name="searchCaseType" required>
+                    <option value="">Select Case Type</option>
+                    <!-- Populated dynamically by JavaScript -->
+                </select>
+                <small class="help-text">Select the type/category of your case (e.g., CC, OS, CRLMP)</small>
+            </div>
+            <div class="form-group">
+                <label for="searchCaseYear">Case Year *</label>
+                <select id="searchCaseYear" name="searchCaseYear" required>
+                    <option value="">Select Year</option>
+                    <!-- Populated dynamically by JavaScript -->
+                </select>
+                <small class="help-text">Year when the case was filed</small>
+            </div>
+        </div>
+
+        <!-- Case Number -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="searchCaseNumber">Case Number *</label>
+                <input type="text" id="searchCaseNumber" name="searchCaseNumber" placeholder="e.g., 0045, 1234" required
+                    pattern="[0-9]+" title="Enter only numeric case number" maxlength="6">
+                <small class="help-text">Enter the numeric case number (without year or type prefix)</small>
+            </div>
+        </div>
+
+        <!-- Full Case ID Preview -->
+        <div class="case-id-preview" id="caseIdPreview" style="display: none;">
+            <div class="preview-box">
+                <strong>📋 Full Case ID:</strong> <span id="fullCaseIdDisplay" class="case-id-value">-</span> <br>
+                <strong>📍 Location:</strong> <span id="caseLocationDisplay" class="location-value">-</span>
+            </div>
+        </div>
+
+        <!-- Search Buttons -->
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="clearCaseSearch()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+                Clear Form
+            </button>
+            <button type="button" class="btn-primary" onclick="searchCase()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.35-4.35" />
+                </svg>
+                Search Case
+            </button>
+        </div>
+    </div>
+
+    <!-- Case Search Results (shown when case is found) -->
+    <div id="caseSearchResults" style="display: none;">
+        <!-- Results will be dynamically inserted here -->
+    </div>
+</div>
+
+<!-- Continue with existing Applicant Details section -->

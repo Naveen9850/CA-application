@@ -79,12 +79,111 @@ const DISTRICTS_COURTS = {
     ]
 };
 
+// ============================================================================
+// COURT-STYLE DATA STRUCTURES (Guntur & Vijayawada District Courts)
+// Based on official eCourts architecture
+// ============================================================================
+
+// Court Complexes (Physical locations within districts)
+const COURT_COMPLEXES = {
+    "Guntur": [
+        { code: 'GNT', name: 'Court Complex, Guntur', city: 'Guntur' },
+        { code: 'NSP', name: 'Court Complex, Narasaraopet', city: 'Narasaraopet' },
+        { code: 'TNL', name: 'Court Complex, Tenali', city: 'Tenali' },
+        { code: 'VNK', name: 'Court Complex, Vinukonda', city: 'Vinukonda' },
+        { code: 'MGL', name: 'Court Complex, Mangalagiri', city: 'Mangalagiri' }
+    ],
+    "Vijayawada": [
+        { code: 'VJA', name: 'Court Complex, Vijayawada', city: 'Vijayawada' }
+    ]
+};
+
+// Court Establishments (Specific courts within each complex)
+const COURT_ESTABLISHMENTS_BY_COMPLEX = {
+    // Guntur Complex Courts
+    'GNT': [
+        { code: 'PDJ_GNT', name: 'Principal District & Sessions Judge, Guntur' },
+        { code: 'ADJ1_GNT', name: 'I Additional District Judge, Guntur' },
+        { code: 'ADJ2_GNT', name: 'II Additional District Judge, Guntur' },
+        { code: 'ADJ3_GNT', name: 'III Additional District Judge, Guntur' },
+        { code: 'CJM_GNT', name: 'Chief Judicial Magistrate, Guntur' },
+        { code: 'ACJM_GNT', name: 'I Additional Chief Judicial Magistrate, Guntur' },
+        { code: 'JMFC1_GNT', name: 'JMFC I, Guntur' },
+        { code: 'JMFC2_GNT', name: 'JMFC II, Guntur' },
+        { code: 'MACT_GNT', name: 'Motor Accidents Claims Tribunal, Guntur' }
+    ],
+    // Narasaraopet Complex Courts
+    'NSP': [
+        { code: 'ADJ1_NSP', name: 'I Additional District Judge, Narasaraopet' },
+        { code: 'CJM_NSP', name: 'Chief Judicial Magistrate, Narasaraopet' },
+        { code: 'JMFC_NSP', name: 'JMFC, Narasaraopet' }
+    ],
+    // Tenali Complex Courts
+    'TNL': [
+        { code: 'ADJ1_TNL', name: 'I Additional District Judge, Tenali' },
+        { code: 'CJM_TNL', name: 'Chief Judicial Magistrate, Tenali' }
+    ],
+    // Vinukonda Complex Courts
+    'VNK': [
+        { code: 'CJM_VNK', name: 'Chief Judicial Magistrate, Vinukonda' }
+    ],
+    // Mangalagiri Complex Courts
+    'MGL': [
+        { code: 'CJM_MGL', name: 'Chief Judicial Magistrate, Mangalagiri' }
+    ],
+    // Vijayawada Complex Courts
+    'VJA': [
+        { code: 'PDJ_VJA', name: 'Principal District & Sessions Judge, Vijayawada' },
+        { code: 'ADJ1_VJA', name: 'I Additional District Judge, Vijayawada' },
+        { code: 'ADJ2_VJA', name: 'II Additional District Judge, Vijayawada' },
+        { code: 'CJM_VJA', name: 'Chief Judicial Magistrate, Vijayawada' }
+    ]
+};
+
+// Court Case Types (Standard codes used in Andhra Pradesh courts)
+const COURT_CASE_TYPES = [
+    { code: 'CC', label: 'CC - Civil Case', category: 'civil' },
+    { code: 'OS', label: 'OS - Original Suit', category: 'civil' },
+    { code: 'CS', label: 'CS - Civil Suit', category: 'civil' },
+    { code: 'CRP', label: 'CRP - Civil Revision Petition', category: 'civil' },
+    { code: 'FA', label: 'FA - First Appeal', category: 'civil' },
+    { code: 'SA', label: 'SA - Second Appeal', category: 'civil' },
+    { code: 'RFA', label: 'RFA - Regular First Appeal', category: 'civil' },
+    { code: 'RSA', label: 'RSA - Regular Second Appeal', category: 'civil' },
+    { code: 'Exn.P', label: 'Exn.P - Execution Petition', category: 'civil' },
+    { code: 'MC', label: 'MC - Miscellaneous Case', category: 'civil' },
+    { code: 'IA', label: 'IA - Interlocutory Application', category: 'civil' },
+    { code: 'Arb.P', label: 'Arb.P - Arbitration Petition', category: 'civil' },
+    { code: 'MAT', label: 'MAT - Matrimonial Appeal', category: 'family' },
+    { code: 'CRLP', label: 'CRLP - Criminal (Local) Petition', category: 'criminal' },
+    { code: 'CRLMP', label: 'CRLMP - Criminal Miscellaneous Petition', category: 'criminal' },
+    { code: 'CRLA', label: 'CRLA - Criminal Appeal', category: 'criminal' },
+    { code: 'CRL.A', label: 'CRL.A - Criminal Appeal', category: 'criminal' },
+    { code: 'Crl.OP', label: 'Crl.OP - Criminal Original Petition', category: 'criminal' },
+    { code: 'SC', label: 'SC - Sessions Case', category: 'criminal' },
+    { code: 'STC', label: 'STC - Sessions Trial Case', category: 'criminal' },
+    { code: 'EP', label: 'EP - Election Petition', category: 'other' },
+    { code: 'MP', label: 'MP - Miscellaneous Petition', category: 'other' }
+];
+
+// Case Year Range Generator
+function generateCaseYearRange() {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2000; // Court digitization typically started around 2000
+    const years = [];
+    for (let year = currentYear; year >= startYear; year--) {
+        years.push(year.toString());
+    }
+    return years;
+}
+
 // Copy Types Available
 const COPY_TYPES = [
     "Case Documents",
     "Court Order",
     "Judgment",
     "Petition",
+    "Written Statement",
     "Evidence Records",
     "Charge Sheet",
     "FIR Copy",
@@ -92,6 +191,7 @@ const COPY_TYPES = [
     "Bail Order",
     "Summons",
     "Warrant",
+    "Pleadings",
     "Other"
 ];
 
@@ -121,6 +221,165 @@ function getCopyTypes() {
 // Get staff list
 function getStaffList() {
     return STAFF_MEMBERS;
+}
+
+// ============================================================================
+// COURT-STYLE HELPER FUNCTIONS
+// ============================================================================
+
+// Get court complexes for a specific district
+function getCourtComplexes(district) {
+    return COURT_COMPLEXES[district] || [];
+}
+
+// Get court establishments for a specific complex
+function getCourtEstablishments(complexCode) {
+    return COURT_ESTABLISHMENTS_BY_COMPLEX[complexCode] || [];
+}
+
+// Get all court case types
+function getCourtCaseTypes() {
+    return COURT_CASE_TYPES;
+}
+
+// Get court case types filtered by category
+function getCourtCaseTypesByCategory(category) {
+    return COURT_CASE_TYPES.filter(type => type.category === category);
+}
+
+// Get case years (dynamic range)
+function getCaseYears() {
+    return generateCaseYearRange();
+}
+
+// Search for case by identifiers
+function searchCaseByDetails(searchParams) {
+    const { district, courtComplex, courtEstablishment, caseType, caseNumber, caseYear } = searchParams;
+
+    // Build full case ID
+    const fullCaseId = `${caseType}/${caseNumber}/${caseYear}`;
+
+    // Search in demo cases database
+    const demoCases = getDemoCases();
+    const foundCase = demoCases.find(c =>
+        c.full_case_id === fullCaseId &&
+        c.complex_code === courtComplex &&
+        c.court_code === courtEstablishment
+    );
+
+    return foundCase || null;
+}
+
+// Get demo cases for testing (will be populated with sample data)
+function getDemoCases() {
+    const DEMO_CASES_KEY = 'demo_cases';
+    let cases = JSON.parse(localStorage.getItem(DEMO_CASES_KEY) || '[]');
+
+    // Initialize with sample data if empty
+    if (cases.length === 0) {
+        cases = initializeDemoCases();
+        localStorage.setItem(DEMO_CASES_KEY, JSON.stringify(cases));
+    }
+
+    return cases;
+}
+
+// Initialize demo cases for testing
+function initializeDemoCases() {
+    return [
+        {
+            id: 'CASE_001',
+            district: 'Guntur',
+            complex_code: 'GNT',
+            complex_name: 'Court Complex, Guntur',
+            court_code: 'PDJ_GNT',
+            court_name: 'Principal District & Sessions Judge, Guntur',
+            case_type_code: 'CC',
+            case_type_label: 'Civil Case',
+            case_number: '0045',
+            case_year: '2024',
+            full_case_id: 'CC/0045/2024',
+            case_title: 'Smt. Lakshmi Devi vs. M/s. ABC Builders Ltd.',
+            petitioner_names: 'Smt. Lakshmi Devi, D/o Late Ramesh Kumar',
+            respondent_names: 'M/s. ABC Builders Ltd., Rep. by Managing Director',
+            filing_date: '2024-03-15',
+            current_stage: 'Evidence Recording',
+            last_order_date: '2026-01-10',
+            next_hearing_date: '2026-01-20',
+            case_status: 'Active',
+            petitioner_advocate: 'Adv. Ramesh Kumar',
+            respondent_advocate: 'Adv. Sunita Rao'
+        },
+        {
+            id: 'CASE_002',
+            district: 'Guntur',
+            complex_code: 'NSP',
+            complex_name: 'Court Complex, Narasaraopet',
+            court_code: 'CJM_NSP',
+            court_name: 'Chief Judicial Magistrate, Narasaraopet',
+            case_type_code: 'CC',
+            case_type_label: 'Civil Case',
+            case_number: '0045',
+            case_year: '2024',
+            full_case_id: 'CC/0045/2024',
+            case_title: 'Sri Venkata Reddy vs. State Bank of India',
+            petitioner_names: 'Sri Venkata Reddy, S/o Subba Rao',
+            respondent_names: 'State Bank of India, Rep. by Branch Manager',
+            filing_date: '2024-04-10',
+            current_stage: 'Arguments',
+            last_order_date: '2026-01-08',
+            next_hearing_date: '2026-01-22',
+            case_status: 'Active',
+            petitioner_advocate: 'Adv. Prakash Reddy',
+            respondent_advocate: 'Adv. Meera Devi'
+        },
+        {
+            id: 'CASE_003',
+            district: 'Guntur',
+            complex_code: 'GNT',
+            complex_name: 'Court Complex, Guntur',
+            court_code: 'CJM_GNT',
+            court_name: 'Chief Judicial Magistrate, Guntur',
+            case_type_code: 'CRLMP',
+            case_type_label: 'Criminal Miscellaneous Petition',
+            case_number: '1234',
+            case_year: '2023',
+            full_case_id: 'CRLMP/1234/2023',
+            case_title: 'State vs. Rajesh Kumar',
+            petitioner_names: 'State of Andhra Pradesh',
+            respondent_names: 'Rajesh Kumar @ Raju',
+            filing_date: '2023-11-20',
+            current_stage: 'Final Arguments',
+            last_order_date: '2025-12-15',
+            next_hearing_date: '2026-02-05',
+            case_status: 'Active',
+            petitioner_advocate: 'Public Prosecutor',
+            respondent_advocate: 'Adv. Suresh Babu'
+        },
+        {
+            id: 'CASE_004',
+            district: 'Vijayawada',
+            complex_code: 'VJA',
+            complex_name: 'Court Complex, Vijayawada',
+            court_code: 'PDJ_VJA',
+            court_name: 'Principal District & Sessions Judge, Vijayawada',
+            case_type_code: 'OS',
+            case_type_label: 'Original Suit',
+            case_number: '0089',
+            case_year: '2025',
+            full_case_id: 'OS/0089/2025',
+            case_title: 'Krishna Enterprises vs. Godavari Traders',
+            petitioner_names: 'M/s. Krishna Enterprises',
+            respondent_names: 'M/s. Godavari Traders',
+            filing_date: '2025-02-28',
+            current_stage: 'Written Statement Stage',
+            last_order_date: '2025-12-20',
+            next_hearing_date: '2026-01-25',
+            case_status: 'Active',
+            petitioner_advocate: 'Adv. Krishna Murthy',
+            respondent_advocate: 'Adv. Padmavati'
+        }
+    ];
 }
 
 // Get applications by case type
